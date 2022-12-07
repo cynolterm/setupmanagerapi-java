@@ -1,0 +1,48 @@
+CREATE TABLE "users" (
+id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+username VARCHAR(100),
+email VARCHAR(100),
+name VARCHAR(100),
+description TEXT,
+nationality VARCHAR(100),
+team_id INTEGER,
+CONSTRAINT username_unique UNIQUE (username)
+);
+
+CREATE TABLE "cars" (
+id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+category VARCHAR(100),
+model VARCHAR(100),
+brand VARCHAR(100)
+);
+
+CREATE TABLE "tracks" (
+id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+name VARCHAR(100),
+length double precision
+);
+
+create TABLE "teams"(
+id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+owner_id INTEGER,
+name VARCHAR(100),
+description TEXT
+);
+
+create TABLE "setups"(
+id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+car_id INTEGER,
+track_id INTEGER,
+team_id INTEGER,
+CONSTRAINT fk_car FOREIGN KEY (car_id) REFERENCES cars(id),
+CONSTRAINT fk_track FOREIGN KEY (track_id) REFERENCES tracks(id),
+CONSTRAINT fk_team FOREIGN KEY (team_id) REFERENCES teams(id)
+);
+
+CREATE TABLE "setup_variants" (
+id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+car_setup TEXT,
+version INTEGER,
+setup_id INTEGER,
+CONSTRAINT fk_setup FOREIGN KEY(setup_id) REFERENCES setups(id)
+);
